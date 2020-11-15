@@ -1,5 +1,6 @@
 provider "kubernetes-alpha" {
 
+    alias          = "k8"
     config_context = var.context
     host           = var.host
     token          = var.token
@@ -8,6 +9,8 @@ provider "kubernetes-alpha" {
 }
 
 resource "kubernetes_manifest" "credentials" {
+
+    provider = kubernetes-alpha.k8
 
     manifest = {
 
@@ -32,6 +35,8 @@ resource "kubernetes_manifest" "credentials" {
 }
 
 resource "kubernetes_manifest" "elasticsearch" {
+
+    provider = kubernetes-alpha.k8
 
     manifest = {
 
@@ -197,6 +202,8 @@ resource "kubernetes_manifest" "elasticsearch" {
 
 resource "kubernetes_manifest" "kibana" {
 
+    provider = kubernetes-alpha.k8
+
     manifest = {
 
         "apiVersion" = "kibana.k8s.elastic.co/v1"
@@ -299,6 +306,8 @@ resource "kubernetes_manifest" "kibana" {
 }
 
 resource "kubernetes_manifest" "metricbeat" {
+
+    provider = kubernetes-alpha.k8
 
     manifest = {
 
