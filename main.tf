@@ -279,14 +279,14 @@ resource "kubernetes_manifest" "kibana" {
                                 "limits" = {
 
                                     "cpu"    = var.kibana_cpu_request
-                                    "memory" = var.kibana_memory_request
+                                    "memory" = "${ var.kibana_memory_request }Gi"
 
                                 }
 
                                 "requests" = {
 
                                     "cpu"    = var.kibana_cpu_request
-                                    "memory" = var.kibana_memory_request
+                                    "memory" = "${ var.kibana_memory_request }Gi"
 
                                 }
 
