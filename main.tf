@@ -1,6 +1,7 @@
 provider "kubernetes-alpha" {
 
     alias                  = "k8"
+    config_path            = "~/.kube/config"
     config_context_cluster = var.context
     host                   = var.host
     token                  = var.token
