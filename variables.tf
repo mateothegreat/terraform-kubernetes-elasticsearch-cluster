@@ -1,3 +1,17 @@
+variable "host" {
+
+    type = string
+    description = "kubernetes api host"
+
+}
+
+variable "token" {
+
+    type = string
+    description = "kubernetes api token"
+
+}
+
 variable "cluster_name" {
 
     type = string

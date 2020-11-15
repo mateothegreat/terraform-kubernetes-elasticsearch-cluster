@@ -1,3 +1,11 @@
+provider "kubernetes-alpha" {
+
+    host     = var.host
+    token    = var.token
+    insecure = true
+
+}
+
 resource "kubernetes_manifest" "credentials" {
 
     manifest = {
