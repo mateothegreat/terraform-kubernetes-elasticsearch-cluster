@@ -1,7 +1,16 @@
+variable "context" {
+
+    type = string
+    description = "kube config context name"
+    default = null
+
+}
+
 variable "host" {
 
     type = string
     description = "kubernetes api host"
+    default = null
 
 }
 
@@ -9,6 +18,7 @@ variable "token" {
 
     type = string
     description = "kubernetes api token"
+    default = null
 
 }
 

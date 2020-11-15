@@ -1,8 +1,9 @@
 provider "kubernetes-alpha" {
 
-    host     = var.host
-    token    = var.token
-    insecure = true
+    config_context = var.context
+    host           = var.host
+    token          = var.token
+    insecure       = true
 
 }
 
