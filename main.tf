@@ -1,10 +1,10 @@
 provider "kubernetes-alpha" {
 
-    alias          = "k8"
-    config_context = var.context
-    host           = var.host
-    token          = var.token
-    insecure       = true
+    alias                  = "k8"
+    config_context_cluster = var.context
+    host                   = var.host
+    token                  = var.token
+    insecure               = true
 
 }
 
