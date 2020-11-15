@@ -6,6 +6,7 @@ provider "kubernetes-alpha" {
     host                   = var.host
     token                  = var.token
     insecure               = true
+    server_side_planning   = false
 
 }
 
