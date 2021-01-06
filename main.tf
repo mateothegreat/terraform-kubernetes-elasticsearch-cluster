@@ -1,11 +1,9 @@
 provider "kubernetes-alpha" {
 
-    alias                  = "k8"
-    config_path            = "~/.kube/config"
-    config_context_cluster = var.context
-    host                   = var.host
-    token                  = var.token
-    insecure               = true
+    alias    = "k8"
+    host     = var.host
+    token    = var.token
+    insecure = true
 
 }
 
@@ -32,6 +30,36 @@ resource "kubernetes_manifest" "credentials" {
         }
 
     }
+
+}
+
+provider "kubernetes" {
+
+    host             = var.host
+    token            = var.token
+    insecure         = true
+    load_config_file = false
+
+}
+
+resource "kubernetes_storage_class" "storage" {
+
+    metadata {
+
+        name = "gp2-expandable"
+
+    }
+
+    storage_provisioner    = "kubernetes.io/aws-ebs"
+    reclaim_policy         = "Delete"
+    allow_volume_expansion = true
+
+    parameters = {
+
+        type = "gp2"
+
+    }
+
 
 }
 
@@ -75,6 +103,38 @@ resource "kubernetes_manifest" "elasticsearch" {
 
                         "spec" = {
 
+                            affinity = {
+
+                                nodeAffinity = {
+
+                                    requiredDuringSchedulingIgnoredDuringExecution = {
+
+                                        nodeSelectorTerms = [
+
+                                            {
+
+                                                matchExpressions = [
+
+                                                    {
+
+                                                        key      = "role"
+                                                        operator = "In"
+                                                        values   = [ var.role ]
+
+                                                    }
+
+                                                ]
+
+                                            }
+
+                                        ]
+
+                                    }
+
+                                }
+
+                            }
+
                             "containers" = [
 
                                 {
@@ -86,7 +146,7 @@ resource "kubernetes_manifest" "elasticsearch" {
                                         {
 
                                             name  = "ES_JAVA_OPTS"
-                                            value = "-Xms${ var.elastic_memory_request - 1 }g -Xmx${ var.elastic_memory_request - 1 }g"
+                                            value = "-Xms${ replace(var.elastic_memory_request, "Gi", "") }g -Xmx${ replace(var.elastic_memory_request, "Gi", "") }g"
 
                                         }
 
@@ -96,15 +156,15 @@ resource "kubernetes_manifest" "elasticsearch" {
 
                                         "limits" = {
 
-                                            "cpu"    = var.elastic_cpu_request
-                                            "memory" = "${ var.elastic_memory_request }Gi"
+                                            "cpu"    = var.elastic_cpu_limit
+                                            "memory" = var.elastic_memory_limit
 
                                         }
 
                                         "requests" = {
 
-                                            "cpu"    = var.elastic_cpu_request
-                                            "memory" = "${ var.elastic_memory_request }Gi"
+                                            "cpu"    = var.elastic_cpu_limit
+                                            "memory" = var.elastic_memory_limit
 
                                         }
 
@@ -147,6 +207,24 @@ resource "kubernetes_manifest" "elasticsearch" {
 
                                     ]
 
+                                    resources = {
+
+                                        "limits" = {
+
+                                            "cpu"    = "100m"
+                                            "memory" = "1Gi"
+
+                                        }
+
+                                        "requests" = {
+
+                                            "cpu"    = "100m"
+                                            "memory" = "1Gi"
+
+                                        }
+
+                                    }
+
                                 }
 
                             ]
@@ -169,7 +247,7 @@ resource "kubernetes_manifest" "elasticsearch" {
 
                                 "accessModes" = [
 
-                                    "ReadWriteOnce",
+                                    "ReadWriteOnce"
 
                                 ]
 
@@ -183,13 +261,23 @@ resource "kubernetes_manifest" "elasticsearch" {
 
                                 }
 
-                                "storageClassName" = "gp2"
+                                "storageClassName" = "gp2-expandable"
 
                             }
 
                         },
 
                     ]
+
+                }
+
+            ]
+
+            secureSettings = [
+
+                {
+
+                    secretName = var.secure_settings_secret_name
 
                 }
 
@@ -202,6 +290,12 @@ resource "kubernetes_manifest" "elasticsearch" {
 }
 
 resource "kubernetes_manifest" "kibana" {
+
+    depends_on = [
+
+        kubernetes_storage_class.storage
+
+    ]
 
     provider = kubernetes-alpha.k8
 
@@ -303,6 +397,5 @@ resource "kubernetes_manifest" "kibana" {
         }
 
     }
-
 
 }

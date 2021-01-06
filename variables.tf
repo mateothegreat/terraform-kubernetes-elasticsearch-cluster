@@ -58,14 +58,27 @@ variable "elastic_version" {
 
 variable "elastic_cpu_request" {
 
-    type = number
+    type = string
     description = "cpu resource limit and request"
 
 }
 
 variable "elastic_memory_request" {
 
-    type = number
+    type = string
+    description = "memory resource limit and request"
+
+}
+variable "elastic_cpu_limit" {
+
+    type = string
+    description = "cpu resource limit and request"
+
+}
+
+variable "elastic_memory_limit" {
+
+    type = string
     description = "memory resource limit and request"
 
 }
@@ -96,5 +109,21 @@ variable "service_type" {
     type = string
     description = "kubernetes service type"
     default = "ClusterIP"
+
+}
+
+variable "secure_settings_secret_name" {
+
+    type = string
+    description = "k8 secret name olding keystore secret data to be added to the cluster"
+    default = null
+
+}
+
+variable "role" {
+
+    type = string
+    description = "nole_selector value for role=<something>"
+    default = null
 
 }
