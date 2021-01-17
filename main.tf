@@ -362,6 +362,38 @@ resource "kubernetes_manifest" "kibana" {
 
                 "spec" = {
 
+                    affinity = {
+
+                        nodeAffinity = {
+
+                            requiredDuringSchedulingIgnoredDuringExecution = {
+
+                                nodeSelectorTerms = [
+
+                                    {
+
+                                        matchExpressions = [
+
+                                            {
+
+                                                key      = "role"
+                                                operator = "In"
+                                                values   = [ var.role ]
+
+                                            }
+
+                                        ]
+
+                                    }
+
+                                ]
+
+                            }
+
+                        }
+
+                    }
+
                     "containers" = [
 
                         {
