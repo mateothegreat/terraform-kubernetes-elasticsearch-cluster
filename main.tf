@@ -38,7 +38,6 @@ provider "kubernetes" {
     host             = var.host
     token            = var.token
     insecure         = true
-    load_config_file = false
 
 }
 
