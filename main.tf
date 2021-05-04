@@ -1,3 +1,25 @@
+terraform {
+
+    required_providers {
+
+        kubernetes-alpha = {
+
+            source  = "hashicorp/kubernetes-alpha"
+            version = "0.2.1"
+
+        }
+
+        kubernetes = {
+
+            source  = "hashicorp/kubernetes"
+            version = "2.0.0"
+
+        }
+
+    }
+
+}
+
 provider "kubernetes-alpha" {
 
     alias    = "k8"
