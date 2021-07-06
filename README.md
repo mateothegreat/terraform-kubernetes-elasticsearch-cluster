@@ -41,7 +41,6 @@ module "elasticsearch-cluster" {
     namespace                   = "default"
     elastic_version             = "7.9.2"
     node_count                  = 3
-    disk_size_gb                = 1024
     role                        = "infra"
     elastic_cpu_request         = "2"
     elastic_memory_request      = "30Gi"
@@ -52,6 +51,13 @@ module "elasticsearch-cluster" {
     password                    = "Agby5kma0130"
     service_type                = "LoadBalancer"
     secure_settings_secret_name = "es-s3-creds"
-
+    
+    #    
+    # Storage settings
+    #    
+    disk_size_gb                = 1024
+    storage_class_name          = "cluster-1"
+    storage_reclaim_policy      = "Delete"
+    
 }
 ```
