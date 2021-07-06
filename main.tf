@@ -126,6 +126,12 @@ resource "kubernetes_manifest" "elasticsearch" {
 
                         "spec" = {
 
+                            nodeSelector = {
+
+                                role = var.role
+
+                            }
+
                             affinity = {
 
                                 nodeAffinity = {
