@@ -291,7 +291,7 @@ resource "kubernetes_manifest" "elasticsearch" {
 
                                 }
 
-                                "storageClassName" = "gp2-expandable"
+                                "storageClassName" = var.storage_class_name
 
                             }
 
