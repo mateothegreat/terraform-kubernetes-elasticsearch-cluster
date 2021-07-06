@@ -143,3 +143,19 @@ variable "storage_reclaim_policy" {
     default     = "Delete"
 
 }
+
+variable "cluster_ca_certificate" {
+
+    type = string
+    description = "cluster ca"
+    default = null
+
+}
+
+variable "insecure" {
+
+    type = bool
+    description = "skip certificate validation"
+    default = false
+
+}

@@ -37,9 +37,11 @@ module "elasticsearch-cluster" {
     
     host                        = data.aws_eks_cluster.cluster.endpoint
     token                       = data.aws_eks_cluster_auth.cluster.token
-    cluster_name                = "cluster-1"
+    cluster_ca_certificate      = base64decode(data.aws_eks_cluster.cluster.certificate_authority[ 0 ].data)
+
     namespace                   = "default"
-    elastic_version             = "7.9.2"
+    cluster_name                = "cluster-1"
+    elastic_version             = "7.13.2"
     node_count                  = 3
     role                        = "infra"
     elastic_cpu_request         = "2"
@@ -48,7 +50,7 @@ module "elasticsearch-cluster" {
     elastic_memory_limit        = "32Gi"
     kibana_cpu_request          = 0.5
     kibana_memory_request       = 2
-    password                    = "Agby5kma0130"
+    password                    = "supersecret"
     service_type                = "LoadBalancer"
     secure_settings_secret_name = "es-s3-creds"
     

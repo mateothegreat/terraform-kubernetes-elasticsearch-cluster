@@ -22,10 +22,11 @@ terraform {
 
 provider "kubernetes-alpha" {
 
-    alias    = "k8"
-    host     = var.host
-    token    = var.token
-    insecure = true
+    alias                  = "k8"
+    host                   = var.host
+    token                  = var.token
+    cluster_ca_certificate = var.cluster_ca_certificate
+    insecure               = var.insecure
 
 }
 
@@ -57,9 +58,10 @@ resource "kubernetes_manifest" "credentials" {
 
 provider "kubernetes" {
 
-    host             = var.host
-    token            = var.token
-    insecure         = true
+    host                   = var.host
+    token                  = var.token
+    cluster_ca_certificate = var.cluster_ca_certificate
+    insecure               = true
 
 }
 
