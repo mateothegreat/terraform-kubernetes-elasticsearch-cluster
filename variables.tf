@@ -1,129 +1,145 @@
 variable "context" {
 
-    type = string
+    type        = string
     description = "kube config context name"
-    default = null
+    default     = null
 
 }
 
 variable "host" {
 
-    type = string
+    type        = string
     description = "kubernetes api host"
-    default = null
+    default     = null
 
 }
 
 variable "token" {
 
-    type = string
+    type        = string
     description = "kubernetes api token"
-    default = null
+    default     = null
 
 }
 
 variable "cluster_name" {
 
-    type = string
+    type        = string
     description = "elasticsearch cluster name"
 
 }
 variable "namespace" {
 
-    type = string
+    type        = string
     description = "elasticsearch cluster namespace"
 
 }
 
 variable "node_count" {
 
-    type = number
+    type        = number
     description = "number of master node instances"
 
 }
 
 variable "disk_size_gb" {
 
-    type = number
+    type        = number
     description = "disk size in gb"
 
 }
 
 variable "elastic_version" {
 
-    type = string
+    type        = string
     description = "elastic version number"
 
 }
 
 variable "elastic_cpu_request" {
 
-    type = string
+    type        = string
     description = "cpu resource limit and request"
 
 }
 
 variable "elastic_memory_request" {
 
-    type = string
+    type        = string
     description = "memory resource limit and request"
 
 }
 variable "elastic_cpu_limit" {
 
-    type = string
+    type        = string
     description = "cpu resource limit and request"
 
 }
 
 variable "elastic_memory_limit" {
 
-    type = string
+    type        = string
     description = "memory resource limit and request"
 
 }
 
 variable "kibana_cpu_request" {
 
-    type = number
+    type        = number
     description = "cpu resource limit and request"
 
 }
 
 variable "kibana_memory_request" {
 
-    type = number
+    type        = number
     description = "memory resource limit and request"
 
 }
 
 variable "password" {
 
-    type = string
+    type        = string
     description = "elasticsearch password"
 
 }
 
 variable "service_type" {
 
-    type = string
+    type        = string
     description = "kubernetes service type"
-    default = "ClusterIP"
+    default     = "ClusterIP"
 
 }
 
 variable "secure_settings_secret_name" {
 
-    type = string
+    type        = string
     description = "k8 secret name olding keystore secret data to be added to the cluster"
-    default = null
+    default     = null
 
 }
 
 variable "role" {
 
-    type = string
+    type        = string
     description = "nole_selector value for role=<something>"
-    default = null
+    default     = null
+
+}
+
+variable "storage_class_name" {
+
+    type        = string
+    description = "name of the storage class we will create to support dynamic resizing of the underlying volumes"
+    default     = "gp2-expandable"
+
+}
+
+variable "storage_reclaim_policy" {
+
+    type        = string
+    description = "policy for the volumes when deleted (this should be either Retain or Delete)"
+    default     = "Delete"
 
 }
