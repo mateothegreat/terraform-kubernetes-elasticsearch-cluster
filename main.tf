@@ -76,6 +76,7 @@ resource "kubernetes_storage_class" "storage" {
     storage_provisioner    = "kubernetes.io/aws-ebs"
     reclaim_policy         = var.storage_reclaim_policy
     allow_volume_expansion = true
+    volume_binding_mode    = "WaitForFirstConsumer"
 
     parameters = {
 
