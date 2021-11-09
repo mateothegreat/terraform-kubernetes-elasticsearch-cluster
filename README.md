@@ -1,5 +1,10 @@
 # Install elasticsearch using the operator
 
+```shell
+kubectl create -f https://download.elastic.co/downloads/eck/1.8.0/crds.yaml
+kubectl apply -f https://download.elastic.co/downloads/eck/1.8.0/operator.yaml
+```
+
 ```hcl
 provider "kubernetes" {
 
