@@ -1,27 +1,3 @@
-variable "context" {
-
-    type        = string
-    description = "kube config context name"
-    default     = null
-
-}
-
-variable "host" {
-
-    type        = string
-    description = "kubernetes api host"
-    default     = null
-
-}
-
-variable "token" {
-
-    type        = string
-    description = "kubernetes api token"
-    default     = null
-
-}
-
 variable "cluster_name" {
 
     type        = string
@@ -146,16 +122,16 @@ variable "storage_reclaim_policy" {
 
 variable "cluster_ca_certificate" {
 
-    type = string
+    type        = string
     description = "cluster ca"
-    default = null
+    default     = null
 
 }
 
 variable "insecure" {
 
-    type = bool
+    type        = bool
     description = "skip certificate validation"
-    default = false
+    default     = false
 
 }

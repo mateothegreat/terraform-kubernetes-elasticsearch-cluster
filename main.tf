@@ -1,69 +1,26 @@
-terraform {
-
-    required_providers {
-
-        kubernetes-alpha = {
-
-            source  = "hashicorp/kubernetes-alpha"
-            version = "0.2.1"
-
-        }
-
-        kubernetes = {
-
-            source  = "hashicorp/kubernetes"
-            version = "2.0.0"
-
-        }
-
-    }
-
-}
-
-provider "kubernetes-alpha" {
-
-    alias                  = "k8"
-    host                   = var.host
-    token                  = var.token
-    cluster_ca_certificate = var.cluster_ca_certificate
-    insecure               = var.insecure
-
-}
-
-resource "kubernetes_manifest" "credentials" {
-
-    provider = kubernetes-alpha.k8
-
-    manifest = {
-
-        "apiVersion" = "v1"
-        "kind"       = "Secret"
-
-        "metadata" = {
-
-            "namespace" = var.namespace
-            "name"      = "${ var.cluster_name }-es-elastic-user"
-
-        }
-
-        "data" = {
-
-            "elastic" = base64encode(var.password)
-
-        }
-
-    }
-
-}
-
-provider "kubernetes" {
-
-    host                   = var.host
-    token                  = var.token
-    cluster_ca_certificate = var.cluster_ca_certificate
-    insecure               = var.insecure
-
-}
+#resource "kubernetes_manifest" "credentials" {
+#
+#    manifest = {
+#
+#        "apiVersion" = "v1"
+#        "kind"       = "Secret"
+#
+#        "metadata" = {
+#
+#            "namespace" = var.namespace
+#            "name"      = "${ var.cluster_name }-es-elastic-user"
+#
+#        }
+#
+#        "data" = {
+#
+#            "elastic" = base64encode(var.password)
+#
+#        }
+#
+#    }
+#
+#}
 
 resource "kubernetes_storage_class" "storage" {
 
@@ -88,8 +45,6 @@ resource "kubernetes_storage_class" "storage" {
 }
 
 resource "kubernetes_manifest" "elasticsearch" {
-
-    provider = kubernetes-alpha.k8
 
     manifest = {
 
@@ -326,8 +281,6 @@ resource "kubernetes_manifest" "kibana" {
         kubernetes_storage_class.storage
 
     ]
-
-    provider = kubernetes-alpha.k8
 
     manifest = {
 
