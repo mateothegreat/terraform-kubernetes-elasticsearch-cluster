@@ -1,65 +1,36 @@
 # Install elasticsearch using the operator
 
 ```hcl
-variable "cluster_name" {}
-variable "aws_profile" {}
-variable "aws_region" {}
+provider "kubernetes" {
 
-#terraform {
-#
-#    backend "s3" {}
-#
-#}
-
-provider "aws" {
-
-    profile = var.aws_profile
-    region  = var.aws_region
-
-}
-
-data "aws_eks_cluster" "cluster" {
-
-    name = var.cluster_name
-
-}
-
-data "aws_eks_cluster_auth" "cluster" {
-
-    name = var.cluster_name
-
+    config_path = "~/.kube/config"
 }
 
 module "elasticsearch-cluster" {
 
-    source  = ""
-    version = ""
-    
-    host                        = data.aws_eks_cluster.cluster.endpoint
-    token                       = data.aws_eks_cluster_auth.cluster.token
-    cluster_ca_certificate      = base64decode(data.aws_eks_cluster.cluster.certificate_authority[ 0 ].data)
+    source = "../"
 
     namespace                   = "default"
     cluster_name                = "cluster-1"
     elastic_version             = "7.13.2"
-    node_count                  = 3
-    role                        = "infra"
-    elastic_cpu_request         = "2"
-    elastic_memory_request      = "30Gi"
-    elastic_cpu_limit           = "2"
-    elastic_memory_limit        = "32Gi"
+    node_count                  = 1
+    role                        = "services"
+    elastic_cpu_request         = "1"
+    elastic_memory_request      = "4Gi"
+    elastic_cpu_limit           = "1"
+    elastic_memory_limit        = "4Gi"
     kibana_cpu_request          = 0.5
-    kibana_memory_request       = 2
+    kibana_memory_request       = 1
     password                    = "supersecret"
     service_type                = "LoadBalancer"
     secure_settings_secret_name = "es-s3-creds"
-    
+
     #    
     # Storage settings
     #    
-    disk_size_gb                = 1024
-    storage_class_name          = "cluster-1"
-    storage_reclaim_policy      = "Delete"
-    
+    disk_size_gb           = 1024
+    storage_class_name     = "cluster-1"
+    storage_reclaim_policy = "Delete"
+
 }
 ```
