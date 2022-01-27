@@ -61,14 +61,14 @@ variable "elastic_memory_limit" {
 
 variable "kibana_cpu_request" {
 
-    type        = number
+    type        = string
     description = "cpu resource limit and request"
 
 }
 
 variable "kibana_memory_request" {
 
-    type        = number
+    type        = string
     description = "memory resource limit and request"
 
 }
@@ -117,14 +117,6 @@ variable "storage_reclaim_policy" {
     type        = string
     description = "policy for the volumes when deleted (this should be either Retain or Delete)"
     default     = "Delete"
-
-}
-
-variable "cluster_ca_certificate" {
-
-    type        = string
-    description = "cluster ca"
-    default     = null
 
 }
 

@@ -46,6 +46,12 @@ resource "kubernetes_storage_class" "storage" {
 
 resource "kubernetes_manifest" "elasticsearch" {
 
+    field_manager {
+
+        force_conflicts = true
+
+    }
+
     manifest = {
 
         "apiVersion" = "elasticsearch.k8s.elastic.co/v1"
@@ -282,6 +288,14 @@ resource "kubernetes_manifest" "kibana" {
 
     ]
 
+    computed_fields = [ "object", "metadata", "spect" ]
+
+
+    field_manager {
+
+        force_conflicts = true
+    }
+
     manifest = {
 
         "apiVersion" = "kibana.k8s.elastic.co/v1"
@@ -289,8 +303,9 @@ resource "kubernetes_manifest" "kibana" {
 
         "metadata" = {
 
-            namespace = var.namespace
-            "name"    = var.cluster_name
+            namespace         = var.namespace
+            "name"            = var.cluster_name
+            creationTimestamp = null
 
         }
 
@@ -343,6 +358,12 @@ resource "kubernetes_manifest" "kibana" {
 
             podTemplate = {
 
+                metadata = {
+
+                    creationTimestamp = null
+
+                }
+
                 "spec" = {
 
                     affinity = {
@@ -388,14 +409,14 @@ resource "kubernetes_manifest" "kibana" {
                                 "limits" = {
 
                                     "cpu"    = var.kibana_cpu_request
-                                    "memory" = "${ var.kibana_memory_request }Gi"
+                                    "memory" = var.kibana_memory_request
 
                                 }
 
                                 "requests" = {
 
                                     "cpu"    = var.kibana_cpu_request
-                                    "memory" = "${ var.kibana_memory_request }Gi"
+                                    "memory" = var.kibana_memory_request
 
                                 }
 
