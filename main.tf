@@ -288,8 +288,7 @@ resource "kubernetes_manifest" "kibana" {
 
     ]
 
-    computed_fields = [ "object", "metadata", "spect" ]
-
+    computed_fields = [ "object", "metadata", "spec" ]
 
     field_manager {
 
