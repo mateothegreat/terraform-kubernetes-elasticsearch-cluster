@@ -68,6 +68,41 @@ resource "kubernetes_manifest" "elasticsearch" {
 
             "version" = var.elastic_version
 
+            "http" = {
+
+                "service" = {
+
+                    "metadata" = {
+
+                        "annotations" = {
+
+                            "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+                            "service.beta.kubernetes.io/aws-load-balancer-internal" = "0.0.0.0/0"
+
+                        }
+
+                    }
+
+                    "spec" = {
+
+                        "type" = var.service_type
+
+                    }
+
+                }
+
+                "tls" = {
+
+                    "selfSignedCertificate" = {
+
+                        "disabled" = true
+
+                    }
+
+                }
+
+            }
+
             "nodeSets" = [
 
                 {
